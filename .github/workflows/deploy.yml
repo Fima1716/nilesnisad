@@ -1,0 +1,46 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Deploy to server
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H 81.26.187.166 >> ~/.ssh/known_hosts 2>/dev/null
+
+          rsync -azP --delete \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            .next/standalone/ \
+            iefimtimofeev@81.26.187.166:/var/www/nilesnisad/
+
+          rsync -azP \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            .next/static \
+            iefimtimofeev@81.26.187.166:/var/www/nilesnisad/.next/
+
+          rsync -azP \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            public/ \
+            iefimtimofeev@81.26.187.166:/var/www/nilesnisad/public/
+
+          ssh -i ~/.ssh/deploy_key iefimtimofeev@81.26.187.166 \
+            "cd /var/www/nilesnisad && PORT=3001 pm2 restart nilesnisad || PORT=3001 pm2 start server.js --name nilesnisad"
