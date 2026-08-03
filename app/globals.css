@@ -3,19 +3,12 @@
 @theme {
   --color-forest: #1b4332;
   --color-forest-light: #2d6a4f;
-  --color-sage: #52b788;
-  --color-sage-light: #95d5b2;
-  --color-sage-pale: #d8f3dc;
-  --color-cream: #faf9f6;
-  --color-warm: #f8f6f1;
+  --color-page: #f4f4f8;
 }
 
 html { scroll-behavior: smooth; }
-body { background: var(--color-cream); }
-::selection { background: var(--color-sage-light); color: var(--color-forest); }
+body { background: #fff; }
+::selection { background: #d1d5db; color: #111827; }
 
-@keyframes slideUp {
-  from { transform: translateY(100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-.animate-slideUp { animation: slideUp 0.3s ease-out; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
