@@ -40,18 +40,25 @@ export function ProductCard({ product }: ProductCardProps) {
       href={`/product/${product.slug}`}
       className="group bg-white rounded-[10px] overflow-hidden cursor-pointer transition-shadow hover:shadow-[0_4px_24px_rgba(0,0,0,0.08)] flex flex-col"
     >
-      <div className="relative aspect-[5/6] bg-gray-50 overflow-hidden">
-        {/* placeholder — градиент по роду */}
-        <div className={cn(
-          "absolute inset-0 flex items-center justify-center",
-          product.genus === "Abies" && "bg-gradient-to-br from-green-50 to-emerald-100",
-          product.genus === "Picea" && "bg-gradient-to-br from-sky-50 to-cyan-100",
-          product.genus === "Pinus" && "bg-gradient-to-br from-amber-50 to-yellow-100",
-        )}>
-          <span className="text-6xl opacity-15 select-none">
-            {product.genus === "Abies" ? "\u{1F332}" : product.genus === "Picea" ? "\u{1F333}" : "\u{1F384}"}
-          </span>
-        </div>
+      <div className="relative aspect-[5/6] bg-gray-100 overflow-hidden">
+        {product.images.length > 0 ? (
+          <img
+            src={product.images[0]}
+            alt={product.name}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : (
+          <div className={cn(
+            "absolute inset-0 flex items-center justify-center",
+            product.genus === "Abies" && "bg-gradient-to-br from-green-50 to-emerald-100",
+            product.genus === "Picea" && "bg-gradient-to-br from-sky-50 to-cyan-100",
+            product.genus === "Pinus" && "bg-gradient-to-br from-amber-50 to-yellow-100",
+          )}>
+            <span className="text-6xl opacity-15 select-none">
+              {product.genus === "Abies" ? "\u{1F332}" : product.genus === "Picea" ? "\u{1F333}" : "\u{1F384}"}
+            </span>
+          </div>
+        )}
 
         {hasBadges && (
           <div className="absolute bottom-2 left-2 flex gap-1">

@@ -38,7 +38,7 @@ const products: Product[] = rawPlants.map((p) => {
     is_new: p.id >= 65,
     rating: +(3.8 + seededRandom(p.id + 100) * 1.2).toFixed(1),
     review_count: Math.floor(seededRandom(p.id + 200) * 25),
-    images: [],
+    images: p.genus === "Picea" ? ["/plants/picea.jpg"] : [],
   };
 });
 
