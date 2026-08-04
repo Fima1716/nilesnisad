@@ -3,6 +3,8 @@ export { ProductGrid } from "./ProductGrid";
 export { ProductCarousel } from "./ProductCarousel";
 export { CategoryGrid } from "./CategoryGrid";
 export { StatsBar } from "./StatsBar";
+export { HeroBanner } from "./HeroBanner";
+export { PromoBlock } from "./PromoBlock";
 export { ProductGallery } from "./ProductGallery";
 export { ProductInfo } from "./ProductInfo";
 export { PriceSidebar } from "./PriceSidebar";
