@@ -41,7 +41,7 @@ export default function ProfilePage() {
 
   return (
     <div className="bg-[#f4f4f8] min-h-dvh">
-      <div className="max-w-screen-lg mx-auto px-4 py-6 md:flex gap-8">
+      <div className="max-w-screen-xl mx-auto px-6 sm:px-10 py-6 md:flex gap-8">
         {/* Sidebar */}
         <aside className="md:w-[240px] flex-shrink-0 mb-6 md:mb-0">
           {/* Avatar + name */}

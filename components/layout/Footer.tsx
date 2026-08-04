@@ -4,7 +4,7 @@ import { dict } from "@/lib/dict";
 export function Footer() {
   return (
     <footer className="border-t border-gray-100 mt-8">
-      <div className="max-w-screen-lg mx-auto px-4 py-8">
+      <div className="max-w-screen-xl mx-auto px-6 sm:px-10 py-8">
         <div className="flex flex-col sm:flex-row justify-between gap-6">
           <div>
             <p className="text-[15px] font-black text-gray-900 tracking-tight">{dict.brand}</p>

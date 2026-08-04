@@ -15,7 +15,7 @@ export default function HomePage() {
   const discounted = getProducts({ perPage: 12 }).filter((p) => p.old_price !== null);
 
   return (
-    <div className="max-w-screen-lg mx-auto px-4">
+    <div className="max-w-screen-xl mx-auto px-6 sm:px-10">
       {/* Above the fold — fits one screen */}
       <div className="flex flex-col gap-2 pt-3 pb-2">
         <HeroBanner />

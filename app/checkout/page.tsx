@@ -80,7 +80,7 @@ export default function CheckoutPage() {
 
   if (items.length === 0 && !success) {
     return (
-      <div className="max-w-screen-lg mx-auto px-4 py-16 text-center">
+      <div className="max-w-screen-xl mx-auto px-6 sm:px-10 py-16 text-center">
         <p className="text-[14px] text-gray-400 mb-3">{dict.cart.empty}</p>
         <Link href="/catalog" className="text-[13px] text-blue-600 font-medium hover:underline">
           {dict.nav.catalog}
@@ -91,7 +91,7 @@ export default function CheckoutPage() {
 
   if (success) {
     return (
-      <div className="max-w-screen-lg mx-auto px-4 py-16 text-center">
+      <div className="max-w-screen-xl mx-auto px-6 sm:px-10 py-16 text-center">
         <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg className="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
@@ -110,7 +110,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="max-w-screen-lg mx-auto px-4 py-5">
+    <div className="max-w-screen-xl mx-auto px-6 sm:px-10 py-5">
       <div className="max-w-[640px] mx-auto">
         <h1 className="text-[20px] font-bold text-gray-900 mb-5">{dict.checkout.title}</h1>
 

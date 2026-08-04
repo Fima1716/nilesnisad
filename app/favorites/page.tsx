@@ -16,7 +16,7 @@ export default function FavoritesPage() {
   }, [ids]);
 
   return (
-    <div className="max-w-screen-lg mx-auto px-4 py-5">
+    <div className="max-w-screen-xl mx-auto px-6 sm:px-10 py-5">
       <h1 className="text-[18px] font-bold text-gray-900 mb-4">
         {dict.nav.favorites} ({products.length})
       </h1>

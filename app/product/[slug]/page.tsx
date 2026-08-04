@@ -21,7 +21,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
-      <div className="max-w-screen-lg mx-auto px-4 pt-3 pb-8">
+      <div className="max-w-screen-xl mx-auto px-6 sm:px-10 pt-3 pb-8">
         <p className="text-[12px] text-gray-400 mb-4">
           <Link href="/" className="hover:text-gray-600 transition-colors">{dict.nav.home}</Link>
           {" \u203A "}
@@ -50,14 +50,14 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </div>
 
       <div className="border-t border-gray-100">
-        <div className="max-w-screen-lg mx-auto px-4 py-6">
+        <div className="max-w-screen-xl mx-auto px-6 sm:px-10 py-6">
           <ReviewSection reviews={reviews} rating={product.rating} count={product.review_count} />
         </div>
       </div>
 
       {similar.length > 0 && (
         <div className="bg-[#f4f4f8]">
-          <div className="max-w-screen-lg mx-auto px-4 py-6">
+          <div className="max-w-screen-xl mx-auto px-6 sm:px-10 py-6">
             <ProductCarousel title={dict.product.similar} products={similar} />
           </div>
         </div>
