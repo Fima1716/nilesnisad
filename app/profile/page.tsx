@@ -63,9 +63,7 @@ export default function ProfilePage() {
               {initials}
             </div>
             <h1 className="text-[16px] font-bold text-gray-900">{user.name}</h1>
-            <p className="text-[13px] text-blue-600 hover:underline cursor-pointer mt-0.5">
-              Изменить профиль
-            </p>
+            <p className="text-[12px] text-gray-400 mt-0.5">{user.email}</p>
           </div>
 
           {/* Nav sections */}
