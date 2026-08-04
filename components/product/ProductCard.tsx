@@ -3,7 +3,7 @@
 import type { Product } from "@/lib/api/types";
 import { cn, formatPrice } from "@/lib/utils";
 import { Badge } from "@/components/ui";
-import { useFavoritesStore, useCartStore } from "@/lib/store";
+import { useFavoritesStore, useCartStore, useToastStore } from "@/lib/store";
 import { dict } from "@/lib/dict";
 
 type ProductCardProps = {
@@ -36,6 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const toggleFav = useFavoritesStore((s) => s.toggle);
   const liked = useFavoritesStore((s) => s.has(product.id));
   const addToCart = useCartStore((s) => s.add);
+  const toast = useToastStore((s) => s.add);
 
   const hasDiscount = product.old_price !== null;
   const hasBadges = product.qty <= 2 || product.price >= 4500 || product.is_new;
@@ -135,6 +136,7 @@ export function ProductCard({ product }: ProductCardProps) {
               cultivar: product.cultivar, price: product.price,
               image: product.images[0] ?? "",
             });
+            toast(`${product.cultivar} — добавлен в корзину`);
           }}
           className="mt-auto w-full h-[36px] bg-gray-100 hover:bg-gray-200 text-gray-700 text-[12px] font-semibold rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-1.5"
         >

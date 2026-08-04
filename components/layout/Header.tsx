@@ -6,6 +6,7 @@ import { dict } from "@/lib/dict";
 import { useCartStore, useFavoritesStore, useAuthStore } from "@/lib/store";
 import { IconButton } from "@/components/ui";
 import { CartDrawer } from "@/components/cart";
+import { SearchAutocomplete } from "@/components/search";
 
 function SearchIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
@@ -49,6 +50,7 @@ function UserIcon() {
 
 export function Header() {
   const [query, setQuery] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -78,8 +80,8 @@ export function Header() {
           </Link>
 
           <form
-            onSubmit={(e) => { e.preventDefault(); if (query.trim()) window.location.href = `/catalog?q=${encodeURIComponent(query)}`; }}
-            className="flex-1 flex h-[44px] max-w-3xl"
+            onSubmit={(e) => { e.preventDefault(); if (query.trim()) { window.location.href = `/catalog?q=${encodeURIComponent(query)}`; setSearchFocused(false); } }}
+            className="flex-1 flex h-[44px] max-w-3xl relative"
           >
             <div className="relative flex-1">
               <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-gray-400 pointer-events-none" />
@@ -87,10 +89,12 @@ export function Header() {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
+                onFocus={() => setSearchFocused(true)}
                 placeholder={dict.nav.searchPlaceholder}
                 className="w-full h-full pl-10 pr-4 bg-gray-100 text-[14px] placeholder:text-gray-400 outline-none rounded-l-[10px] border border-transparent focus:border-gray-300 transition-colors"
               />
             </div>
+            <SearchAutocomplete query={query} visible={searchFocused} onClose={() => setSearchFocused(false)} />
             <button
               type="submit"
               className="h-full px-5 bg-gray-900 text-white text-[14px] font-semibold rounded-r-[10px] hover:bg-gray-800 transition-colors cursor-pointer flex-shrink-0"

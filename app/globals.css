@@ -15,3 +15,16 @@ body { background: #fff; }
 
 @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 .animate-slideIn { animation: slideIn 0.25s ease-out; }
+
+@keyframes toastIn { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.animate-toastIn { animation: toastIn 0.2s ease-out; }
+
+/* Mobile safe area for tab bar */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+}
+
+/* Add bottom padding on mobile for tab bar */
+@media (max-width: 767px) {
+  main { padding-bottom: 64px; }
+}

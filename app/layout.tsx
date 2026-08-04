@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Header, Footer } from "@/components/layout";
+import { Header, Footer, MobileTabBar } from "@/components/layout";
+import { Toaster } from "@/components/ui";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"], variable: "--font-inter" });
@@ -17,6 +18,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <MobileTabBar />
+        <Toaster />
       </body>
     </html>
   );
