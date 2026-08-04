@@ -9,10 +9,10 @@ export function PromoBlock() {
         className="group relative rounded-xl overflow-hidden bg-gray-900 h-[140px] flex flex-col justify-end p-5"
       >
         <Image
-          src="/hero.png"
+          src="/home/new-postup.png"
           alt=""
           fill
-          className="object-cover opacity-30 group-hover:opacity-40 transition-opacity"
+          className="object-cover opacity-40 group-hover:opacity-50 transition-opacity"
         />
         <div className="relative">
           <h3 className="text-white text-[16px] font-bold">Новые поступления</h3>
@@ -27,16 +27,18 @@ export function PromoBlock() {
       </Link>
 
       <div className="relative rounded-xl overflow-hidden bg-gray-50 h-[140px] flex flex-col justify-between p-5">
-        <div>
+        <div className="relative z-10">
           <h3 className="text-gray-900 text-[16px] font-bold">Поможем подобрать растение</h3>
           <p className="text-gray-500 text-[12px] mt-0.5 max-w-[260px]">
             Ответим на вопросы и подберём хвойные под ваш сад и задачи
           </p>
         </div>
-        <button className="inline-flex items-center gap-1.5 bg-white hover:bg-gray-100 text-gray-700 font-semibold text-[12px] px-4 py-2 rounded-lg border border-gray-200 transition-colors cursor-pointer w-fit">
+        <button className="relative z-10 inline-flex items-center gap-1.5 bg-white hover:bg-gray-100 text-gray-700 font-semibold text-[12px] px-4 py-2 rounded-lg border border-gray-200 transition-colors cursor-pointer w-fit">
           Получить консультацию
         </button>
-        <span className="absolute right-3 bottom-3 text-[48px] opacity-[0.06] select-none">{"\u{1F33F}"}</span>
+        <div className="absolute right-0 bottom-0 w-[40%] h-full">
+          <Image src="/home/help-with-choice.png" alt="" fill className="object-contain object-right-bottom opacity-60" />
+        </div>
       </div>
     </div>
   );

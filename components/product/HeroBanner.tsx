@@ -3,16 +3,16 @@ import Image from "next/image";
 
 export function HeroBanner() {
   return (
-    <div className="relative rounded-2xl overflow-hidden bg-gray-900 h-[280px] sm:h-[320px]">
+    <div className="relative rounded-2xl overflow-hidden bg-[#f5f2ee] h-[280px] sm:h-[320px]">
       <Image
-        src="/hero.png"
+        src="/home/hero.png"
         alt=""
         fill
         priority
-        className="object-cover"
+        className="object-cover object-right"
         quality={90}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/20 sm:to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#f5f2ee] via-[#f5f2ee]/80 to-transparent sm:via-[#f5f2ee]/50" />
 
       <div className="relative h-full flex flex-col justify-center px-7 sm:px-10 max-w-[520px]">
         <h1 className="text-[28px] sm:text-[38px] font-black text-gray-900 leading-[1.08] tracking-tight">
