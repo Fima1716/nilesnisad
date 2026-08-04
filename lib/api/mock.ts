@@ -46,6 +46,9 @@ export function getProducts(params?: {
   sort?: string;
   genus?: string;
   maxQty?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  inStock?: boolean;
   isNew?: boolean;
   perPage?: number;
   q?: string;
@@ -58,7 +61,21 @@ export function getProducts(params?: {
   }
   if (params?.q) {
     const q = params.q.toLowerCase();
-    result = result.filter((p) => p.name.toLowerCase().includes(q));
+    result = result.filter((p) =>
+      p.name.toLowerCase().includes(q) ||
+      p.genus_ru.toLowerCase().includes(q) ||
+      p.cultivar.toLowerCase().includes(q) ||
+      p.species.toLowerCase().includes(q)
+    );
+  }
+  if (params?.minPrice !== undefined) {
+    result = result.filter((p) => p.price >= params.minPrice!);
+  }
+  if (params?.maxPrice !== undefined) {
+    result = result.filter((p) => p.price <= params.maxPrice!);
+  }
+  if (params?.inStock) {
+    result = result.filter((p) => p.qty > 0);
   }
   if (params?.maxQty !== undefined) {
     result = result.filter((p) => p.qty <= params.maxQty!);
