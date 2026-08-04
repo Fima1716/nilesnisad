@@ -1,44 +1,33 @@
 "use client";
 
+import Image from "next/image";
 import type { Product } from "@/lib/api/types";
 import { cn, formatPrice } from "@/lib/utils";
 import { Badge } from "@/components/ui";
+import type { BadgeVariant } from "@/components/ui/Badge";
 import { useFavoritesStore } from "@/lib/store";
-import { CartButton } from "@/components/ui";
+import { CartButton, FavoriteButton } from "@/components/ui";
 import { dict } from "@/lib/dict";
 
 type ProductCardProps = {
   product: Product;
 };
 
-function HeartButton({ active, onClick }: { active: boolean; onClick: () => void }) {
-  return (
-    <button
-      onClick={(e) => { e.stopPropagation(); e.preventDefault(); onClick(); }}
-      className={cn(
-        "w-8 h-8 flex items-center justify-center rounded-full cursor-pointer transition-all",
-        active ? "bg-red-50" : "bg-white/80 shadow-sm hover:scale-105",
-      )}
-    >
-      <svg
-        className={cn("w-[18px] h-[18px] transition-colors", active ? "text-red-500" : "text-gray-400")}
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-        fill={active ? "currentColor" : "none"}
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-      </svg>
-    </button>
-  );
-}
-
 export function ProductCard({ product }: ProductCardProps) {
   const toggleFav = useFavoritesStore((s) => s.toggle);
   const liked = useFavoritesStore((s) => s.has(product.id));
 
   const hasDiscount = product.old_price !== null;
-  const hasBadges = product.qty <= 2 || product.price >= 4500 || product.is_new;
+  const accessBadge = product.id % 5 === 0 ? "exclusive" : product.id % 7 === 0 ? "limited" : null;
+  const badgeOrder = [
+    product.qty <= 2 ? "lowStock" : null,
+    hasDiscount ? "premium" : null,
+    product.is_new ? "newArrival" : null,
+    accessBadge,
+  ].filter(Boolean) as BadgeVariant[];
+  const badgesToShow = badgeOrder.slice(0, 2);
+  const stockText = product.qty <= 0 ? "Нет в наличии" : product.qty <= 2 ? dict.product.lowStockLeft(product.qty) : dict.product.inStock(product.qty);
+  const stockTone = product.qty <= 0 ? "text-gray-400" : product.qty <= 2 ? "text-red-600" : "text-emerald-700";
 
   return (
     <a
@@ -48,10 +37,12 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="relative overflow-hidden rounded-[18px] bg-gray-100">
         <div className="relative aspect-[4/5]">
           {product.images.length > 0 ? (
-            <img
-              src={product.images[0]}
+            <Image
+              src={product.images[0] ?? ""}
               alt={product.name}
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 240px"
+              className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
             />
           ) : (
             <div className={cn(
@@ -66,11 +57,11 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
 
-          {hasBadges && (
+          {badgesToShow.length > 0 && (
             <div className="absolute bottom-2 left-2 flex flex-col gap-1">
-              {product.qty <= 2 && <Badge variant="lowStock" />}
-              {hasDiscount && <Badge variant="premium" />}
-              {product.is_new && <Badge variant="newArrival" />}
+              {badgesToShow.map((variant) => (
+                <Badge key={variant} variant={variant} />
+              ))}
             </div>
           )}
 
@@ -78,7 +69,7 @@ export function ProductCard({ product }: ProductCardProps) {
             "absolute right-2 top-2 transition-opacity",
             liked ? "opacity-100" : "opacity-0 group-hover:opacity-100",
           )}>
-            <HeartButton active={liked} onClick={() => toggleFav(product.id)} />
+            <FavoriteButton active={liked} onClick={() => toggleFav(product.id)} />
           </div>
         </div>
       </div>
@@ -107,17 +98,19 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.genus_ru} {product.species} &lsquo;{product.cultivar}&rsquo;
         </p>
 
-        {product.review_count > 0 && (
-          <div className="flex items-center gap-1.5">
+        <div className="flex items-center justify-between gap-2">
+          <span className={`text-[11px] font-medium ${stockTone}`}>
+            {stockText}
+          </span>
+          {product.review_count > 0 && (
             <div className="flex items-center gap-0.5 rounded-full bg-gray-50 px-1.5 py-0.5">
               <svg className="h-3 w-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
               <span className="text-[11px] font-medium text-gray-600 tabular-nums">{product.rating}</span>
             </div>
-            <span className="text-[11px] text-gray-400">{product.review_count} отз.</span>
-          </div>
-        )}
+          )}
+        </div>
 
         <div className="mt-auto pt-0.5">
           <CartButton product={product} size="sm" />

@@ -1,5 +1,6 @@
 import type { Review } from "@/lib/api/types";
 import { dict } from "@/lib/dict";
+import { cn } from "@/lib/utils";
 
 type ReviewSectionProps = {
   reviews: Review[];
@@ -13,7 +14,7 @@ function Stars({ rating }: { rating: number }) {
       {[1, 2, 3, 4, 5].map((i) => (
         <svg
           key={i}
-          className={`w-3.5 h-3.5 ${i <= rating ? "text-amber-400" : "text-gray-200"}`}
+          className={cn("h-[15px] w-[15px]", i <= rating ? "text-amber-400" : "text-gray-200")}
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -33,50 +34,60 @@ export function ReviewSection({ reviews, rating, count }: ReviewSectionProps) {
   }
 
   return (
-    <section className="border-t border-gray-100 pt-6">
-      <h3 className="text-[16px] font-bold text-gray-900 mb-4">{dict.product.reviews(count)}</h3>
+    <section>
+      <h2 className="mb-5 text-[18px] font-bold tracking-[-0.01em] text-gray-900">
+        {dict.product.reviews(count)}
+      </h2>
 
-      <div className="flex gap-8 mb-6">
-        <div className="flex flex-col items-center gap-1">
-          <span className="text-[32px] font-black text-gray-900 leading-none">{rating}</span>
-          <Stars rating={Math.round(rating)} />
-          <span className="text-[11px] text-gray-400 mt-1">{count} отз.</span>
+      <div className="flex flex-col gap-6 lg:flex-row lg:gap-10">
+        <div className="lg:w-[300px] lg:flex-shrink-0">
+          <div className="flex items-center gap-5 rounded-[20px] border border-[#ece7e1] bg-[#faf9f7] p-5">
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-[34px] font-black leading-none tracking-[-0.02em] text-gray-900 tabular-nums">
+                {rating}
+              </span>
+              <Stars rating={Math.round(rating)} />
+              <span className="mt-1 text-[11px] text-gray-400">{dict.product.reviewsShort(count)}</span>
+            </div>
+
+            <div className="flex flex-1 flex-col justify-center gap-1.5">
+              {[5, 4, 3, 2, 1].map((star) => (
+                <div key={star} className="flex items-center gap-2">
+                  <span className="w-2 text-right text-[11px] text-gray-500 tabular-nums">{star}</span>
+                  <div className="h-[6px] flex-1 overflow-hidden rounded-full bg-[#ece7e1]">
+                    <div
+                      className="h-full rounded-full bg-amber-400"
+                      style={{
+                        width: `${reviews.length > 0 ? (distribution[star - 1] / reviews.length) * 100 : 0}%`,
+                      }}
+                    />
+                  </div>
+                  <span className="w-3 text-[11px] text-gray-400 tabular-nums">{distribution[star - 1]}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        <div className="flex-1 flex flex-col justify-center gap-1 max-w-[200px]">
-          {[5, 4, 3, 2, 1].map((star) => (
-            <div key={star} className="flex items-center gap-2">
-              <span className="text-[11px] text-gray-500 w-2 text-right">{star}</span>
-              <div className="flex-1 h-[6px] bg-gray-100 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-amber-400 rounded-full"
-                  style={{ width: `${reviews.length > 0 ? (distribution[star - 1] / reviews.length) * 100 : 0}%` }}
-                />
+        <div className="min-w-0 flex-1 space-y-3">
+          {reviews.map((review) => (
+            <article key={review.id} className="rounded-[20px] border border-[#ece7e1] bg-white p-4">
+              <div className="mb-2.5 flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f1eeea] text-[13px] font-bold text-forest">
+                  {review.author.charAt(0)}
+                </div>
+                <div>
+                  <p className="text-[13px] font-semibold text-gray-900">{review.author}</p>
+                  <p className="text-[11px] text-gray-400">{review.date}</p>
+                </div>
+                <div className="ml-auto">
+                  <Stars rating={review.rating} />
+                </div>
               </div>
-              <span className="text-[11px] text-gray-400 w-3">{distribution[star - 1]}</span>
-            </div>
+              <p className="text-[13px] leading-relaxed text-gray-600">{review.text}</p>
+            </article>
           ))}
         </div>
-      </div>
-
-      <div className="space-y-4">
-        {reviews.map((review) => (
-          <div key={review.id} className="border-t border-gray-50 pt-4">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-[12px] font-bold text-gray-500">
-                {review.author.charAt(0)}
-              </div>
-              <div>
-                <p className="text-[13px] font-medium text-gray-900">{review.author}</p>
-                <p className="text-[11px] text-gray-400">{review.date}</p>
-              </div>
-              <div className="ml-auto">
-                <Stars rating={review.rating} />
-              </div>
-            </div>
-            <p className="text-[13px] text-gray-600 leading-relaxed">{review.text}</p>
-          </div>
-        ))}
       </div>
     </section>
   );

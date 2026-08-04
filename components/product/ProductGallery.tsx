@@ -1,60 +1,83 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { dict } from "@/lib/dict";
+import { Badge } from "@/components/ui";
+import type { BadgeVariant } from "@/components/ui/Badge";
 
 type ProductGalleryProps = {
   images: string[];
   genus: string;
+  badges?: BadgeVariant[];
 };
 
-export function ProductGallery({ images, genus }: ProductGalleryProps) {
+const GENUS_EMOJI: Record<string, string> = {
+  Abies: "\u{1F332}",
+  Picea: "\u{1F333}",
+  Pinus: "\u{1F384}",
+};
+
+const GENUS_GRADIENT: Record<string, string> = {
+  Abies: "from-[#eef5ef] to-[#e2ede4]",
+  Picea: "from-[#eef3f6] to-[#e2ebf0]",
+  Pinus: "from-[#f6f2e9] to-[#efe8da]",
+};
+
+export function ProductGallery({ images, genus, badges = [] }: ProductGalleryProps) {
   const [active, setActive] = useState(0);
 
-  const emoji = genus === "Abies" ? "\u{1F332}" : genus === "Picea" ? "\u{1F333}" : "\u{1F384}";
-  const gradient =
-    genus === "Abies"
-      ? "from-green-50 to-emerald-50"
-      : genus === "Picea"
-        ? "from-sky-50 to-cyan-50"
-        : "from-amber-50 to-yellow-50";
-
   const hasImages = images.length > 0;
+  const emoji = GENUS_EMOJI[genus] ?? "\u{1F333}";
+  const gradient = GENUS_GRADIENT[genus] ?? GENUS_GRADIENT.Picea;
 
   return (
     <div className="flex gap-3">
-      {/* Thumbnails */}
       {hasImages && images.length > 1 && (
-        <div className="hidden md:flex flex-col gap-2">
+        <div className="hidden flex-col gap-2 md:flex">
           {images.map((src, i) => (
             <button
-              key={i}
+              key={src}
+              type="button"
               onClick={() => setActive(i)}
               className={cn(
-                "w-[56px] h-[56px] rounded-lg border-2 overflow-hidden bg-gray-100 cursor-pointer flex-shrink-0",
-                active === i ? "border-gray-900" : "border-transparent hover:border-gray-300",
+                "relative h-[60px] w-[60px] flex-shrink-0 cursor-pointer overflow-hidden rounded-[14px] bg-[#f4f2ef] transition-all",
+                active === i
+                  ? "ring-2 ring-forest ring-offset-2 ring-offset-white"
+                  : "opacity-70 hover:opacity-100",
               )}
             >
-              <img src={src} alt="" className="w-full h-full object-cover" />
+              <Image src={src} alt="" fill sizes="60px" className="object-cover" />
             </button>
           ))}
         </div>
       )}
 
-      {/* Main image */}
-      <div className="flex-1 aspect-square rounded-xl overflow-hidden bg-gray-100">
+      <div className="relative aspect-[4/5] flex-1 overflow-hidden rounded-[24px] border border-[#ece7e1] bg-[#f7f5f2]">
         {hasImages ? (
-          <img
-            src={images[active]}
+          <Image
+            src={images[active] ?? images[0] ?? ""}
             alt=""
-            className="w-full h-full object-cover"
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 440px"
+            className="object-cover"
           />
         ) : (
-          <div className={cn(
-            "w-full h-full flex items-center justify-center bg-gradient-to-br",
-            gradient,
-          )}>
-            <span className="text-[120px] opacity-10 select-none">{emoji}</span>
+          <div className={cn("flex h-full w-full flex-col items-center justify-center gap-3 bg-gradient-to-br", gradient)}>
+            <span className="select-none text-[110px] leading-none opacity-15">{emoji}</span>
+            <span className="text-[12px] font-medium tracking-[0.02em] text-gray-400">
+              {dict.product.noPhoto}
+            </span>
+          </div>
+        )}
+
+        {badges.length > 0 && (
+          <div className="absolute left-4 top-4 flex flex-wrap gap-1.5">
+            {badges.map((variant) => (
+              <Badge key={variant} variant={variant} />
+            ))}
           </div>
         )}
       </div>

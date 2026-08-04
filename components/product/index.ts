@@ -7,5 +7,6 @@ export { HeroBanner } from "./HeroBanner";
 export { PromoBlock } from "./PromoBlock";
 export { ProductGallery } from "./ProductGallery";
 export { ProductInfo } from "./ProductInfo";
+export { ContainerSelect } from "./ContainerSelect";
 export { PriceSidebar } from "./PriceSidebar";
 export { ReviewSection } from "./ReviewSection";
