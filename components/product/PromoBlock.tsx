@@ -6,7 +6,7 @@ export function PromoBlock() {
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
       <Link
         href="/catalog?is_new=true"
-        className="group relative rounded-xl overflow-hidden bg-gray-900 h-[160px] flex flex-col justify-end p-5"
+        className="group relative rounded-xl overflow-hidden bg-gray-900 h-[140px] flex flex-col justify-end p-5"
       >
         <Image
           src="/hero.png"
@@ -26,7 +26,7 @@ export function PromoBlock() {
         </div>
       </Link>
 
-      <div className="relative rounded-xl overflow-hidden bg-gray-50 h-[160px] flex flex-col justify-between p-5">
+      <div className="relative rounded-xl overflow-hidden bg-gray-50 h-[140px] flex flex-col justify-between p-5">
         <div>
           <h3 className="text-gray-900 text-[16px] font-bold">Поможем подобрать растение</h3>
           <p className="text-gray-500 text-[12px] mt-0.5 max-w-[260px]">

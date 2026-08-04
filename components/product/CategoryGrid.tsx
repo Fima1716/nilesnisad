@@ -16,7 +16,7 @@ function Tile({ href, label, desc, emoji }: { href: string; label: string; desc:
   return (
     <Link
       href={href}
-      className="group bg-gray-50 hover:bg-gray-100 rounded-xl p-3.5 flex flex-col justify-between h-[120px] transition-colors relative overflow-hidden"
+      className="group bg-gray-50 hover:bg-gray-100 rounded-xl p-3.5 flex flex-col justify-between h-[100px] transition-colors relative overflow-hidden"
     >
       <div>
         <span className="text-[14px] font-bold text-gray-900 block leading-tight">{label}</span>

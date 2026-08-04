@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function HeroBanner() {
   return (
-    <div className="relative rounded-2xl overflow-hidden bg-gray-900 h-[340px] sm:h-[400px]">
+    <div className="relative rounded-2xl overflow-hidden bg-gray-900 h-[280px] sm:h-[320px]">
       <Image
         src="/hero.png"
         alt=""
