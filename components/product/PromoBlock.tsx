@@ -1,44 +1,44 @@
 import Link from "next/link";
-import { dict } from "@/lib/dict";
-import type { Stats } from "@/lib/api/types";
+import Image from "next/image";
 
-type PromoBlockProps = {
-  stats: Stats;
-};
-
-export function PromoBlock({ stats }: PromoBlockProps) {
-  const features = [
-    { value: String(stats.total_varieties), label: dict.footer.varieties(stats.total_varieties).replace(String(stats.total_varieties) + " ", "") },
-    { value: String(stats.total_seedlings) + "+", label: "саженцев в наличии" },
-    { value: stats.container, label: "контейнеры" },
-  ];
-
+export function PromoBlock() {
   return (
-    <div className="bg-gray-900 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-      <div>
-        <h2 className="text-white text-[20px] font-bold leading-snug">
-          Привитые саженцы<br />с гарантией приживаемости
-        </h2>
-        <p className="text-gray-400 text-[13px] mt-2">
-          Самовывоз — Московская область. Доставка по договорённости.
-        </p>
-        <Link
-          href="/catalog"
-          className="mt-4 inline-flex items-center gap-2 text-white text-[13px] font-medium hover:text-gray-300 transition-colors"
-        >
-          {dict.actions.showAll}
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-          </svg>
-        </Link>
-      </div>
-      <div className="flex gap-6 sm:gap-8">
-        {features.map((f) => (
-          <div key={f.label} className="text-center">
-            <p className="text-white text-[24px] font-black leading-none">{f.value}</p>
-            <p className="text-gray-500 text-[11px] mt-1">{f.label}</p>
-          </div>
-        ))}
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {/* New arrivals */}
+      <Link
+        href="/catalog?is_new=true"
+        className="group relative rounded-2xl overflow-hidden bg-gray-900 min-h-[200px] flex flex-col justify-end p-6"
+      >
+        <Image
+          src="/hero.png"
+          alt=""
+          fill
+          className="object-cover opacity-40 group-hover:opacity-50 transition-opacity"
+        />
+        <div className="relative">
+          <h3 className="text-white text-[18px] font-bold">Новые поступления</h3>
+          <p className="text-white/60 text-[13px] mt-1">Свежие сорта в нашем каталоге</p>
+          <span className="inline-flex items-center gap-1.5 mt-4 bg-white text-gray-900 font-semibold text-[13px] px-4 py-2.5 rounded-xl group-hover:bg-gray-100 transition-colors">
+            Смотреть новинки
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </span>
+        </div>
+      </Link>
+
+      {/* Consultation */}
+      <div className="relative rounded-2xl overflow-hidden bg-gray-50 min-h-[200px] flex flex-col justify-between p-6">
+        <div>
+          <h3 className="text-gray-900 text-[18px] font-bold">Поможем подобрать растение</h3>
+          <p className="text-gray-500 text-[13px] mt-1 max-w-[280px]">
+            Ответим на вопросы и подберём хвойные под ваш сад и задачи
+          </p>
+        </div>
+        <button className="inline-flex items-center gap-1.5 mt-4 bg-white hover:bg-gray-100 text-gray-700 font-semibold text-[13px] px-4 py-2.5 rounded-xl border border-gray-200 transition-colors cursor-pointer w-fit">
+          Получить консультацию
+        </button>
+        <span className="absolute right-4 bottom-4 text-[64px] opacity-10 select-none">{"\u{1F33F}"}</span>
       </div>
     </div>
   );
