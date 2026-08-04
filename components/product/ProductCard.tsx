@@ -40,7 +40,7 @@ export function ProductCard({ product }: ProductCardProps) {
       href={`/product/${product.slug}`}
       className="group bg-white rounded-[10px] overflow-hidden cursor-pointer transition-shadow hover:shadow-[0_4px_24px_rgba(0,0,0,0.08)] flex flex-col"
     >
-      <div className="relative aspect-square bg-gray-50 overflow-hidden">
+      <div className="relative aspect-[5/6] bg-gray-50 overflow-hidden">
         {/* placeholder — градиент по роду */}
         <div className={cn(
           "absolute inset-0 flex items-center justify-center",
