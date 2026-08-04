@@ -40,10 +40,10 @@ export default function ProfilePage() {
     .slice(0, 2);
 
   return (
-    <div className="max-w-[1400px] mx-auto px-4 py-6">
-      <div className="md:flex gap-8">
+    <div className="bg-[#f4f4f8] min-h-dvh">
+      <div className="max-w-[1400px] mx-auto px-4 py-6 md:flex gap-8">
         {/* Sidebar */}
-        <aside className="md:w-[240px] flex-shrink-0 mb-6 md:mb-0">
+        <aside className="md:w-[240px] flex-shrink-0 mb-6 md:mb-0 bg-white rounded-xl p-5 h-fit">
           {/* Avatar + name */}
           <div className="mb-5">
             <div className="w-[80px] h-[80px] rounded-full bg-gray-100 flex items-center justify-center text-[24px] font-bold text-gray-400 mb-3">
