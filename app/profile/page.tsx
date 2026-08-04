@@ -2,9 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useAuthStore, useCartStore, useFavoritesStore } from "@/lib/store";
+import { useAuthStore } from "@/lib/store";
 import { formatPrice } from "@/lib/utils";
 import { dict } from "@/lib/dict";
+import { getProducts } from "@/lib/api/mock";
+import { ProductCarousel } from "@/components/product";
 
 const sidebarSections = [
   {
@@ -33,9 +35,10 @@ const mockOrders = [
 
 export default function ProfilePage() {
   const { user, logout } = useAuthStore();
-  const cartCount = useCartStore((s) => s.count());
-  const favCount = useFavoritesStore((s) => s.count());
   const router = useRouter();
+
+  const viewed = getProducts({ perPage: 8 });
+  const forYou = getProducts({ sort: "price_desc", perPage: 8 });
 
   if (!user) {
     router.push("/auth");
@@ -140,23 +143,12 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Activity */}
-          <div>
-            <h2 className="text-[16px] font-bold text-gray-900 mb-3">Активность</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              <div className="bg-gray-50 rounded-xl p-4 text-center">
-                <p className="text-[24px] font-black text-gray-900">{mockOrders.length}</p>
-                <p className="text-[12px] text-gray-500">Заказов</p>
-              </div>
-              <Link href="/favorites" className="bg-gray-50 rounded-xl p-4 text-center hover:bg-gray-100 transition-colors">
-                <p className="text-[24px] font-black text-gray-900">{favCount}</p>
-                <p className="text-[12px] text-gray-500">В избранном</p>
-              </Link>
-              <div className="bg-gray-50 rounded-xl p-4 text-center">
-                <p className="text-[24px] font-black text-gray-900">{cartCount}</p>
-                <p className="text-[12px] text-gray-500">В корзине</p>
-              </div>
-            </div>
+          {/* You viewed */}
+          <ProductCarousel title="Вы смотрели" products={viewed} href="/catalog" />
+
+          {/* For you */}
+          <div className="mt-6">
+            <ProductCarousel title="Подобрали по вашим интересам" products={forYou} href="/catalog" />
           </div>
         </div>
       </div>
