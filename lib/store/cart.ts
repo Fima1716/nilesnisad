@@ -11,6 +11,7 @@ export type CartItem = {
   species: string;
   cultivar: string;
   price: number;
+  image: string;
   qty: number;
 };
 

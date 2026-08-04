@@ -133,6 +133,7 @@ export function ProductCard({ product }: ProductCardProps) {
               id: product.id, slug: product.slug, name: product.name,
               genus_ru: product.genus_ru, species: product.species,
               cultivar: product.cultivar, price: product.price,
+              image: product.images[0] ?? "",
             });
           }}
           className="mt-auto w-full h-[36px] bg-gray-100 hover:bg-gray-200 text-gray-700 text-[12px] font-semibold rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-1.5"

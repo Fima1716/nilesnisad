@@ -56,6 +56,7 @@ export function PriceSidebar({ product }: PriceSidebarProps) {
             id: product.id, slug: product.slug, name: product.name,
             genus_ru: product.genus_ru, species: product.species,
             cultivar: product.cultivar, price: product.price,
+            image: product.images[0] ?? "",
           })}
           className="w-full h-[48px] bg-gray-900 hover:bg-gray-800 text-white font-semibold text-[14px] rounded-[10px] transition-colors cursor-pointer flex items-center justify-center gap-2"
         >

@@ -55,8 +55,12 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
             <div className="divide-y divide-gray-50">
               {items.map((item) => (
                 <div key={item.id} className="px-5 py-4 flex gap-3">
-                  <div className="w-16 h-16 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0">
-                    <span className="text-2xl opacity-20">{"\u{1F333}"}</span>
+                  <div className="w-16 h-16 rounded-lg bg-gray-100 overflow-hidden flex items-center justify-center flex-shrink-0">
+                    {item.image ? (
+                      <img src={item.image} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-2xl opacity-15">{"\u{1F333}"}</span>
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-[13px] text-gray-700 leading-tight truncate">
