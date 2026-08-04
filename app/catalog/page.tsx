@@ -27,6 +27,7 @@ export default function CatalogPage() {
 function CatalogContent() {
   const searchParams = useSearchParams();
   const initialGenus = searchParams.get("genus");
+  const initialQ = searchParams.get("q");
 
   const [activeGenus, setActiveGenus] = useState<string | null>(initialGenus);
   const [sort, setSort] = useState<SortKey>("default");
@@ -36,8 +37,9 @@ function CatalogContent() {
     () => getProducts({
       genus: activeGenus ?? undefined,
       sort: sort === "default" ? undefined : sort,
+      q: initialQ ?? undefined,
     }),
-    [activeGenus, sort],
+    [activeGenus, sort, initialQ],
   );
 
   return (

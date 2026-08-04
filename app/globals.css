@@ -12,3 +12,6 @@ body { background: #fff; }
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+@keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.animate-slideIn { animation: slideIn 0.25s ease-out; }

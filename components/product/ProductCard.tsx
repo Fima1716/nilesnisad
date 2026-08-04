@@ -1,14 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import type { Product } from "@/lib/api/types";
 import { cn, formatPrice } from "@/lib/utils";
 import { dict } from "@/lib/dict";
 import { Badge } from "@/components/ui";
+import { useFavoritesStore } from "@/lib/store";
 
 type ProductCardProps = {
   product: Product;
-  onFavorite?: (id: number) => void;
 };
 
 function HeartButton({ active, onClick }: { active: boolean; onClick: () => void }) {
@@ -30,8 +29,9 @@ function HeartButton({ active, onClick }: { active: boolean; onClick: () => void
   );
 }
 
-export function ProductCard({ product, onFavorite }: ProductCardProps) {
-  const [liked, setLiked] = useState(false);
+export function ProductCard({ product }: ProductCardProps) {
+  const toggleFav = useFavoritesStore((s) => s.toggle);
+  const liked = useFavoritesStore((s) => s.has(product.id));
 
   const hasBadges = product.qty <= 2 || product.price >= 4500 || product.is_new;
 
@@ -64,19 +64,13 @@ export function ProductCard({ product, onFavorite }: ProductCardProps) {
         <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity md:block hidden">
           <HeartButton
             active={liked}
-            onClick={() => {
-              setLiked(!liked);
-              onFavorite?.(product.id);
-            }}
+            onClick={() => toggleFav(product.id)}
           />
         </div>
         <div className="absolute top-2 right-2 md:hidden">
           <HeartButton
             active={liked}
-            onClick={() => {
-              setLiked(!liked);
-              onFavorite?.(product.id);
-            }}
+            onClick={() => toggleFav(product.id)}
           />
         </div>
       </div>

@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { dict } from "@/lib/dict";
+import { useCartStore, useFavoritesStore, useAuthStore } from "@/lib/store";
 import { IconButton } from "@/components/ui";
+import { CartDrawer } from "@/components/cart";
 
 function SearchIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
@@ -29,14 +31,6 @@ function HeartIcon() {
   );
 }
 
-function BellIcon() {
-  return (
-    <svg className="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-    </svg>
-  );
-}
-
 function CartIcon() {
   return (
     <svg className="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
@@ -55,51 +49,85 @@ function UserIcon() {
 
 export function Header() {
   const [query, setQuery] = useState("");
+  const [cartOpen, setCartOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  const cartCount = useCartStore((s) => s.count());
+  const favCount = useFavoritesStore((s) => s.count());
+  const user = useAuthStore((s) => s.user);
+
+  useEffect(() => { setMounted(true); }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
-      <div className="max-w-[1400px] mx-auto h-[66px] px-4 flex items-center gap-3">
-        <Link
-          href="/"
-          className="text-[15px] font-black tracking-tight text-gray-900 whitespace-nowrap flex-shrink-0 hover:opacity-70 transition-opacity"
-        >
-          {dict.brand}
-        </Link>
-
-        <button className="hidden md:flex items-center gap-2 h-[44px] bg-gray-900 text-white text-[14px] font-semibold px-4 rounded-[10px] hover:bg-gray-800 transition-colors cursor-pointer flex-shrink-0">
-          <GridIcon />
-          {dict.nav.catalog}
-        </button>
-
-        <form
-          onSubmit={(e) => { e.preventDefault(); }}
-          className="flex-1 flex h-[44px] max-w-3xl"
-        >
-          <div className="relative flex-1">
-            <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-gray-400 pointer-events-none" />
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder={dict.nav.searchPlaceholder}
-              className="w-full h-full pl-10 pr-4 bg-gray-100 text-[14px] placeholder:text-gray-400 outline-none rounded-l-[10px] border border-transparent focus:border-gray-300 transition-colors"
-            />
-          </div>
-          <button
-            type="submit"
-            className="h-full px-5 bg-gray-900 text-white text-[14px] font-semibold rounded-r-[10px] hover:bg-gray-800 transition-colors cursor-pointer flex-shrink-0"
+    <>
+      <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
+        <div className="max-w-[1400px] mx-auto h-[66px] px-4 flex items-center gap-3">
+          <Link
+            href="/"
+            className="text-[15px] font-black tracking-tight text-gray-900 whitespace-nowrap flex-shrink-0 hover:opacity-70 transition-opacity"
           >
-            {dict.nav.find}
-          </button>
-        </form>
+            {dict.brand}
+          </Link>
 
-        <nav className="hidden md:flex items-center gap-1">
-          <IconButton icon={<HeartIcon />} label={dict.nav.favorites} badge={0} />
-          <IconButton icon={<BellIcon />} label={dict.nav.notifications} badge={0} />
-          <IconButton icon={<CartIcon />} label={dict.nav.cart} badge={0} />
-          <IconButton icon={<UserIcon />} label={dict.nav.profile} />
-        </nav>
-      </div>
-    </header>
+          <Link
+            href="/catalog"
+            className="hidden md:flex items-center gap-2 h-[44px] bg-gray-900 text-white text-[14px] font-semibold px-4 rounded-[10px] hover:bg-gray-800 transition-colors flex-shrink-0"
+          >
+            <GridIcon />
+            {dict.nav.catalog}
+          </Link>
+
+          <form
+            onSubmit={(e) => { e.preventDefault(); if (query.trim()) window.location.href = `/catalog?q=${encodeURIComponent(query)}`; }}
+            className="flex-1 flex h-[44px] max-w-3xl"
+          >
+            <div className="relative flex-1">
+              <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-gray-400 pointer-events-none" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={dict.nav.searchPlaceholder}
+                className="w-full h-full pl-10 pr-4 bg-gray-100 text-[14px] placeholder:text-gray-400 outline-none rounded-l-[10px] border border-transparent focus:border-gray-300 transition-colors"
+              />
+            </div>
+            <button
+              type="submit"
+              className="h-full px-5 bg-gray-900 text-white text-[14px] font-semibold rounded-r-[10px] hover:bg-gray-800 transition-colors cursor-pointer flex-shrink-0"
+            >
+              {dict.nav.find}
+            </button>
+          </form>
+
+          <nav className="hidden md:flex items-center gap-1">
+            <Link href="/favorites">
+              <IconButton icon={<HeartIcon />} label={dict.nav.favorites} badge={mounted ? favCount : 0} />
+            </Link>
+            <IconButton
+              icon={<CartIcon />}
+              label={dict.nav.cart}
+              badge={mounted ? cartCount : 0}
+              onClick={() => setCartOpen(true)}
+            />
+            {user ? (
+              <Link href="/profile">
+                <div className="flex flex-col items-center gap-0.5 px-2 py-1 cursor-pointer text-gray-500 hover:text-gray-700 transition-colors">
+                  <div className="w-[22px] h-[22px] rounded-full bg-gray-200 flex items-center justify-center text-[10px] font-bold text-gray-600">
+                    {user.name.charAt(0)}
+                  </div>
+                  <span className="text-[10px] font-medium leading-none">{dict.nav.profile}</span>
+                </div>
+              </Link>
+            ) : (
+              <Link href="/auth">
+                <IconButton icon={<UserIcon />} label="Войти" />
+              </Link>
+            )}
+          </nav>
+        </div>
+      </header>
+
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+    </>
   );
 }
