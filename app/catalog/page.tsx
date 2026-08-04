@@ -44,7 +44,7 @@ function CatalogContent() {
 
   return (
     <div className="bg-[#f4f4f8] min-h-dvh">
-      <div className="max-w-[1400px] mx-auto px-4 py-4">
+      <div className="max-w-screen-xl mx-auto px-4 py-4">
         <p className="text-[12px] text-gray-400 mb-3">
           <Link href="/" className="hover:text-gray-600 transition-colors">{dict.nav.home}</Link>
           {" \u203A "}

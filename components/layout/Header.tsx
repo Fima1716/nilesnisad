@@ -61,7 +61,7 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
-        <div className="max-w-[1400px] mx-auto h-[66px] px-4 flex items-center gap-3">
+        <div className="max-w-screen-xl mx-auto h-[66px] px-4 flex items-center gap-3">
           <Link
             href="/"
             className="text-[15px] font-black tracking-tight text-gray-900 whitespace-nowrap flex-shrink-0 hover:opacity-70 transition-opacity"
